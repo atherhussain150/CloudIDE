@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+   <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+    <title>Dashboard</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/material/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/stylesheets/material/css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="/stylesheets/material/css/colors/blue.css" id="theme" rel="stylesheet">
+
+
+    <!--<link rel='stylesheet' href='/stylesheets/tree/easyui.css' />
+    <link rel='stylesheet' href='/stylesheets/tree/icon.css' />-->
+
+  <link rel='stylesheet' href='/stylesheets/themes/metro/easyui.css' />
+  <link rel='stylesheet' href='/stylesheets/themes/icon.css' />    
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arvo">
+
+    <link rel='stylesheet' href='/stylesheets/tree/cloudEdit.min.css' />
+    
+    
+
+    <script type="text/javascript" async="" src="/javascripts/intercom.v1.js"></script>
+     <script  src="/javascripts/jquery-1.11.3.js"></script>
+       <script src="/build/package/dev/vs/loader.js"></script>
+    <script src="/javascripts/ga.js"></script> 
+
+
+    <style>
+      .debug{
+        font-family: Consolas;
+        font-size: 10px;
+        display: none;
+      }
+
+      .btn.sharp {
+	border-radius: 0;
+}
+
+</style>
+
+ 
+
+
+  </head>
+  <body class="fix-header fix-sidebar card-no-border" style="background:#eef5f9">
+
+     <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+
+     <div id="main-wrapper">
+
+      <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                           
+                            <!-- Light Logo icon -->
+                            <!-- <img src="/images/CloudIDE.png" alt="homepage" class="light-logo" /> -->
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                         
+                         <!-- Light Logo text -->    
+                         <img style="max-width:160px;max-height:50px " src="/images/CloudIDE.png" class="light-logo" alt="homepage" /></span> </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            <form class="app-search">
+                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown" style="margin-right:50px">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/stylesheets/material/assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" /><%= username %></a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/logout" class="abo">Logout</a></li>
+              </ul>
+                        
+                          </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+     <div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal Header -->
+         <div class="modal-header" style="background-color:white;">
+            <button type="button" class="close" 
+               data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+            </button>
+         </div>
+         <!-- Modal Body -->
+         <div class="modal-body">
+            <h5 class="text-center" style="font-weight:bold;">Create a new File</h5>
+            <table class="table table-condensed" id="tblGrid">
+               <thead id="tblHead">
+                  <tr>
+                  
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                       <label  class=" control-label">Filename:</label>
+                       <br/>
+                       <input type="text" id="cbtname" name="cbtname" class="form-control input-lg" placeholder="Name">
+                        <br/>
+                       <label  class=" control-label">FileType:</label>
+                       <%=Language%>
+                      </td>
+                  </tr>
+               </tbody>
+            </table>
+
+  
+         </div>
+         <!-- Modal Footer -->
+         <div style= "text-align: center" class="modal-footer">
+              <button type="button" id="btnadd" class="btn btn-primary btn-custom" data-dismiss="modal">
+                  Create file
+            </button>
+            <button type="button" class="btn btn-default btn-custom"
+               data-dismiss="modal">
+            Close
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<div id="DeleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Delete file ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deletefile()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+   <div style="border:1px solid rgba(0,0,0,.2);margin-top:45px;height:400px;background:#ECEDEF;margin-left:10px;width:98%;box-shadow: 0 10px 6px -6px #777;">
+<div  style="float:left;border-right:solid 1px #cfd6d9;width:0px;height:inherit;min-width:255px;box-shadow:-2px 4px 4px 3px rgba(0, 0, 0, 0.1);">
+    <div style="width:100%;background:#1e88e5;height:40px;" > 
+  <ul style="height:inherit">
+  <li style="display: inline-block;height:inherit"><button type="button" id="btnrun" class="btn btn-info sharp" style="height:inherit;width:100%">Run</button></li>
+  <li style="display: inline-block;height:inherit"><button type="button" id="btnsave" name="btnsave" class="btn btn-info sharp" style="height:inherit;width:inherit">Save</button></li>
+  <li style="display: inline-block;height:inherit"><button type="button" id="btncompile" name="btncompile" class="btn btn-info sharp" style="height:inherit;width:inherit">Compile</button></li>
+  <li style="display: inline-block;height:inherit"><button type="button" id="btnee" name="btnee" class="btn btn-info sharp" data-toggle="modal" data-target="#myModalHorizontal" style="height:inherit;width:inherit">Add</button></li>
+
+</ul>
+ </div>
+<div style="background:#007bff;height:40px;text-align:center;display:table-cell;vertical-align:middle;min-width:255px;width:100%">
+ <span style="color:white;font-weight:700">PROJECT EXPLORER</span>
+</div>
+<br/>
+  <ul id="treeview" class="easyui-tree" style="position:absolute;width:19%"></ul>
+    <div id="lblfile" class="debug"></div>
+  <div id="addparam" class="debug"></div>
+  <div id="language" class="debug"><%=Language%></div>
+  <div id="ipswa" class="debug"><%=ctnr_ip%></div>  
+</div>
+<div style="float: left; width:80%;height:100%">
+  <div id="container" style="height:100%;width:100%;">
+  </div>
+</div>
+
+</div>
+<br/>
+<div style="float:left;display:block;box-sizing:border-box;border:1px solid rgba(0,0,0,.3);height:fit-content;margin-left:10px;width:98%;box-shadow: 0 10px 6px -6px #777;background:lightgrey">
+<h3 class="terminal-title" style=" font-family: 'Arvo', serif;margin-top:5px;"><font color="black"> &nbsp;&nbsp;&nbsp;TERMINAL</font></h3>
+<br/>
+<iframe id="ifrm-term" src="http://<%=ip %>:3000?host=<%=ctnr_name %>" class="terminal-iframe" width="100%" height="100%" frameborder="0" ></iframe>
+</div>
+ <div style = "display: none;">
+                            
+                            <input type="text" id='containerpath' value=<%= containerpath%>>                        
+                            
+                            
+                            
+
+</div>
+<br/>
+ <div id="mm" class="easyui-menu" style="width:120px;">
+	<div id="addfile"  data-toggle="modal" data-target="#myModalHorizontal" data-options="iconCls:'icon-add'">Add File</div>
+	<div  data-toggle="modal" data-target="#DeleteModal" data-options="iconCls:'icon-remove'">Delete File</div>
+</div>
+
+<script type="text/javascript" src="/javascripts/src-noconflict/ace.js"  charset="utf-8"></script>
+<script type="text/javascript" src="/javascripts/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+    docloaded=false;
+    var editors = {};
+    var currentnodepath="";
+    var editor = null;
+    var themevar ='vs-light';
+    var langpick = '';
+    //  var jq = jQuery.noConflict();  
+     $(document).ready(function() {
+
+      require.config({ paths: { 'vs': '/build/package/dev/vs'}});
+                              require(['vs/editor/editor.main'], function() {
+                                  editor = monaco.editor.create(document.getElementById('container'), {
+                                  theme : themevar
+                         });
+                        
+
+
+                   
+                      var MODES = (function() {
+                          var modesIds = monaco.languages.getLanguages().map(function(lang) {
+                              return lang.id;
+                          });
+                          modesIds.sort();
+
+                          return modesIds.map(function(modeId) {
+                              return {
+                                  modeId: modeId,
+                                  sampleURL: '/build/index/samples/sample.' + modeId + '.txt'
+                              };
+                          });
+                      })();
+
+                      for (var i = 0; i < MODES.length; i++) {
+                          var o = document.createElement('option');
+                          o.textContent = MODES[i].modeId;
+                          o.value = MODES[i].modeId;
+                          $(".language-picker").append(o);
+                      }
+
+                           $(".language-picker").change(function() {
+                           langpick = MODES[this.selectedIndex]; 
+                          loadSample(langpick);
+                      });
+
+        });
+
+
+      $("#tab-editor").hide();
+
+          $("body").on("click", "a.abo", function(){
+         window.location.replace("/logout");
+ });
+
+
+
+ 
+
+ $(window).bind('keydown', function(event) {
+    if (event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+        {
+            event.preventDefault();
+             var filename = $("#lblfile").text();
+      var content = editors[filename].session.getValue();
+           $.ajax({
+           url: "/write",
+           type: "POST",
+           data: { name: filename, data:content}
+           }).done(function( content ) {
+             alert( content );
+
+          
+         $(".my-code-area").data( "ace" ).editor.ace.setValue( content, -1 );
+          }); 
+
+                }        
+      }
+    }
+});
+               
+                    
+                
+               
+    
+                
+              });
+             
+                 
+                   
+
+       
+
+   $("#btnrun").click(function(){
+
+      var filename = $("#lblfile").text();
+      console.log(filename.split('.')[0])
+      var lang=$("#language").text();
+     var cmd;
+     switch(lang)
+     {
+       case 'C':
+       {
+        cmd = 'gcc '+filename+' -o '+filename.split('.')[0]+' && ./'+filename.split('.')[0];
+        break;
+       }
+      case 'JAVA':
+      {
+        cmd = 'javac *.java && java '+filename.split('.')[0];
+        break;
+      }
+      case 'PhP':
+      {
+        var ips = $("#ipswa").text();
+        cmd='php -S '+ips+':8000';
+        break;
+      }
+      case 'Python':
+      {
+       cmd = 'python3 '+filename;
+       break;
+      }
+     }
+      
+      console.log("command:"+cmd);
+       $('#ifrm-term')[0].contentWindow.postMessage(cmd, '*');
+
+
+    });
+
+
+     $("#btncompile").click(function(){
+
+      var filename = $("#lblfile").text();
+      console.log(filename.split('.')[0])
+      cmd = 'gcc '+filename+' -o '+filename.split('.')[0]
+      $('#ifrm-term')[0].contentWindow.postMessage(cmd, '*');
+    });
+
+      $("#btnadd").click(function(){
+      var ffname=document.getElementById( "cbtname" ).value;
+         var t = $('#treeview');
+             var node = t.tree('getSelected');
+                 t.tree('append', {
+                  parent: (node?node.target:null),
+                 data: [{
+                    text: ffname,
+                    file: 1,
+                    state: "open",
+                    attributes: {"path": currentnodepath }
+                }]
+             });             
+      cmd = 'touch '+ffname
+      $('#ifrm-term')[0].contentWindow.postMessage(cmd, '*');
+
+
+    });
+      
+     $("#btnsave").click(function(){
+
+      
+      var filename = $("#lblfile").text();
+      var content = editors[filename].session.getValue();
+          
+
+         $.ajax({
+           url: "/write",
+           type: "POST",
+           data: { name: filename, data:content}
+         }).done(function( content ) {
+             alert( content );
+
+        console.log(content);
+           $(".my-code-area").data( "ace" ).editor.ace.setValue( content, -1 );
+         });   
+
+     });  
+    
+function loadtreedata()
+{
+      $('#treeview').tree({
+          method: 'get',
+          url: '/files',
+          lines: false, 
+          onClick: function(node){
+            
+            $("#lblfile").text(node.text);
+            //alert(node.id);
+
+            
+          }, 
+          onDblClick: function(node){
+              $("#lblfile").text(node.text);
+              $("#addparam").text(node.attributes.path+"/"+node.text);
+              console.dir(node,{depth:null})//console.log('node : ' +node);  // alert node text property when clicked
+
+              if(node.file== 0) return false;
+              
+             // addPanel(node.text);
+
+              var filename = node.attributes.path+"/"+node.text;
+
+              $.ajax({
+                url: "/read",
+                type: "GET",
+                data: { name: filename}
+              }).done(function( content ) {
+                //console.log(content);
+                //editors[node.text].session.setValue( content );
+                loadSample2(content);
+              });         
+          },
+          onBeforeExpand: function(node){
+          //alert(node.text);  // alert node text property when clicked
+          $("#addparam").text(node.attributes.path+"/"+node.text);
+        }, 
+        onBeforeLoad: function (node,param) { 
+          //alert(node.text);
+          param.filename=$("#addparam").text(); 
+          return true;
+        },
+
+      onContextMenu: function(e, node){
+    e.preventDefault();   
+   $("#lblfile").text(node.text);
+		// select the node
+    $('#treeview').tree('select', node.target);
+    var nam=node.text;
+    currentnodepath=node.attributes.path;
+   if(nam.match(/[.]{2,}/)==true ||nam.includes(".")!=true)
+   {
+   $("#addfile").show(); 
+   }
+   else{
+   $("#addfile").hide();
+   }
+		// display context menu
+    // /^.*\.(c|C|java|JAVA|doc|DOC|pdf|PDF)$/
+     
+		$('#mm').menu('show', {
+			left: e.pageX,
+			top: e.pageY
+    });
+	}
+
+
+      });
+      
+      //alert($('#treeview').tree('getRoot'));
+}
+
+loadtreedata();
+
+function loadSample2(data) {
+               // readTextFile(pathss);
+               // fileselected = file;                
+            //    filename = langs;          
+                    if (!editor) {
+                        $('.container').empty();
+                        editor = monaco.editor.create(document.getElementById('container'), {
+                          
+                        });
+                    }
+                 
+                    var oldModel = editor.getModel();
+                    var newModel = monaco.editor.createModel(data, 'java');                   
+                    editor.setModel(newModel);
+                    
+                    if (oldModel) {
+                        oldModel.dispose();
+                    }
+                   
+              
+
+               
+            }
+
+
+function loadSample(mode) {
+                  $.ajax({
+                      type: 'GET',
+                      url: mode.sampleURL,
+                      dataType: 'text'                      
+                  }).done(function(data) {
+                  
+                      if (!editor) {
+                          $('.container').empty();
+                          editor = monaco.editor.create(document.getElementById('container'), {
+                            
+                          });
+                      }
+                   
+                      var oldModel = editor.getModel();
+                      var newModel = monaco.editor.createModel(data, mode.modeId);
+                      lang = mode.modeId;
+                      editor.setModel(newModel);
+                      
+                      if (oldModel) {
+                          oldModel.dispose();
+                      }
+                     
+                  });
+
+                 
+              }
+
+
+  function deletefile()
+ {
+  var filename = $("#lblfile").text();
+  var node = $('#treeview').tree('getSelected');
+  $('#treeview').tree('remove', node.target);
+  $('#ifrm-term')[0].contentWindow.postMessage("rm "+filename, '*');
+
+ }
+
+
+		var index = 0;
+		function addPanel(filename){
+             $("#tab-editor").show();
+			index++;
+      if ($('#tab-editor').tabs('exists', filename)) {
+        $('#tab-editor').tabs('select', filename);
+      } else {
+        $('#tab-editor').tabs('add',{
+          title: filename,
+          content: '<pre id="'+filename+'"></pre>',
+          closable: true
+        });
+        $('li.tabs-selected').attr('load', 1);
+      }
+      
+      //console.log($('li.tabs-selected > a > span:eq(0)').text());
+      
+
+      editors[filename] = ace.edit(filename);
+      editors[filename].setTheme("ace/theme/tomorrow");
+      editors[filename].session.setMode("ace/mode/java");
+      editors[filename].$blockScrolling = Infinity;
+      editors[filename].getSession().setUseWrapMode(true);
+      editors[filename].setOptions({
+        fontSize: "16px", 
+        maxLines: Infinity
+      });
+
+      editors[filename].on("input", function() {
+        var tab = $('#tab-editor').tabs('getSelected');
+        var index = $('#tab-editor').tabs('getTabIndex',tab);
+        var modified = $('li.tabs-selected > a > span:eq(0)').text()
+        //console.log('modified : '+modified);
+        if(editors[filename].session.getUndoManager().isClean() == false){
+          if(modified.substring(0, 1) != '*'){
+            $('li.tabs-selected > a > span:eq(0)').text('*'+modified);
+          }
+        }
+      });
+
+		}
+		function removePanel(){
+			var tab = $('#tab-editor').tabs('getSelected');
+			if (tab){
+				var index = $('tab-editor').tabs('getTabIndex', tab);
+        $('#tab-editor').tabs('close', index);
+         
+			}
+		}
+
+    $('#tab-editor').tabs({ 
+      onBeforeClose: function (title) { 
+       // alert(editors[title].session.getUndoManager().isClean());
+        return confirm('Are you sure you want to close ' + title); 
+      } 
+    });  
+
+    //alert($('#treeview').tree('getRoot'));
+
+</script>    
+
+   <script src="/stylesheets/material/assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="/stylesheets/material/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/javascripts/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="/javascripts/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/javascripts/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/stylesheets/material/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/javascripts/custom.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Dashboard</title>
+    <style>
+      .ctnr{}
+      .cbb{}
+      .cbte{}
+    </style>
+   <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+    <title>Dashboard</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/material/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/stylesheets/material/css/style.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="/stylesheets/material/css/colors/blue.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+   <!-- <li class="dropdown" style="margin-bottom:-20px;margin-top:-10px">
+              <a href="#" class="dropdown-toggle navbar-img" style="font-size:20px;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span style="-webkit-text-fill-color:#fff"><%= username %>&nbsp;&nbsp;</span>
+            <img style="border-radius:50%;" src="http://via.placeholder.com/30x30">
+              </a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li><a href="#" class="abo">Logout</a></li>
+              </ul>
+            </li> -->
+   
+     <script  src="/javascripts/jquery-1.11.3.js"></script>   
+    <script type="text/javascript" >
+      $(document).ready(function(){
+             $("#bar").show();
+        
+
+        $("body").on("click", "a.ctnr", function(){
+
+          
+
+          ctrname = $(this).attr("ctrname");
+          ctrip = $(this).attr("ctrip");
+
+        $.ajax({
+          url:"/xhr", 
+          method: "GET",
+          data:{"ctrname": ctrname, "ctrip": ctrip} 
+        }).done(function(res){
+          $("#content").html(res);
+         $("#content").show();
+         $("#bar").hide();
+        });
+
+
+        });
+
+          $("#content").hide();
+
+$("#btcreate").click(function(){
+  var nam=document.getElementById( "cttname" ).value;
+  var language=document.getElementById("cntrlan").value;
+ $.ajax({
+          url:"/create", 
+          method: "GET",
+          data:{"ctrname": nam,"language":language} 
+        }).done(function(res){
+         window.location.replace("/dashboard");
+          setTimeout(restart(),3000);
+        }); 
+ });
+
+ $("body").on("click", "a.cbte", function(){
+  var nam=document.getElementById( "ctdel" ).value;
+        var namehtml=$(this).attr("cbsname");
+          $.ajax({
+          url:"/delete", 
+          method: "GET",
+          data:{"ctrname": namehtml} 
+        }).done(function(res){
+          window.location.replace("/dashboard");
+        });
+ });
+
+      function restart()
+      {
+        alert(".");
+          window.location.replace("/dashboard");
+      }
+
+
+      $("body").on("click", "a.abo", function(){
+         window.location.replace("/logout");
+ });
+      });
+
+function checkcontainer()
+{
+ var email=document.getElementById( "cttname" ).value;
+	
+ if(email)
+ {
+  $.ajax({
+  type: 'post',
+  url: '/checkContainer',
+  data: {
+   user_email:email,
+  },
+  success: function (response) {
+   $( '#email_status' ).html(response);
+   if(response=="OK")	
+   {
+     document.getElementById( "btcreate" ).disabled = false;
+    return true;	
+   }
+   else
+   {
+      document.getElementById( "btcreate" ).disabled = true;
+    return false;	
+   }
+  }
+  });
+ }
+ else
+ {
+   document.getElementById( "btcreate" ).disabled = true;
+  $( '#email_status' ).html("");
+  return false;
+ }
+}
+
+
+</script>
+  </head>
+  <body class="fix-header fix-sidebar card-no-border">
+
+       <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+    </div>
+
+    <div id="main-wrapper">
+
+      <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                           
+                            <!-- Light Logo icon -->
+                            <!-- <img src="/images/CloudIDE.png" alt="homepage" class="light-logo" /> -->
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                         
+                         <!-- Light Logo text -->    
+                         <img style="max-width:160px;max-height:50px " src="/images/CloudIDE.png" class="light-logo" alt="homepage" /></span> </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            <form class="app-search">
+                                <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0" >
+                        <!-- ============================================================== -->
+                        <!-- Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown" style="margin-right:50px">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/stylesheets/material/assets/images/users/1.jpg" alt="user" class="profile-pic m-r-10" /><%= username %></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+         <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li> <a class="waves-effect waves-dark" href="/" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
+                        </li>             
+                    </ul>
+               
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+            <!-- Bottom points-->
+            <div class="sidebar-footer">           
+                <!-- item--><a href="#" class="link abo" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> </div>
+            <!-- End Bottom points-->
+        </aside>
+
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Active Clients</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-7 col-4 align-self-center">
+                        <a href="#" class="btn waves-effect waves-light btn-danger pull-right hidden-sm-down" data-toggle="modal" data-target="#myModalHorizontal">+ Add a Container</a>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">                            
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                 <!-- <th style="text-align:center"><input type="checkbox" id="checkall" /></th> -->
+                                   <th>Active Instances</th>
+                                     <th>Details</th>
+                                  <!-- <th style="text-align:center">Edit</th>                      -->
+                                    <th style="text-align:center">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          <% ctnr.forEach(function(el, index) { %>
+                                            <tr>
+                                                 <!-- <td style="text-align:center;vertical-align:middle"><input type="checkbox" class="checkthis" /></td> -->
+            <td style="text-align:left;vertical-align:middle">
+              <a href="/xhr?name=<%= el.name %>&lang=<%= el.Language %>&ip=<%= el.ip %>"  ctrname="<%= el.name %>" ctrip="<%= el.ip %>"><img style="padding-right:50px" src="images/cmd.png"/></a>
+            </td>
+            <td>
+               <ul>
+                 <li>Name: <%= el.name %> </li>
+                 <li>Ipv4: <%= el.ip %> </li>
+                 <li>Current RAM Usage: <%= (Math.floor((el.ram/1048576)*100)/100).toFixed(2) %> MB</li>
+                 <li>Process: <%= el.processes %> </li>
+                 <li>Architecture: <%= el.architecture %> </li>
+                 <li>Created At: <%= el.created %> </li>
+                 <li>Language: <%= el.Language %> </li>
+               </ul>                
+            </td>
+        <!-- <td style="vertical-align:middle;text-align:center"><a href="#"><img src="images/edit.png"/></a></td> -->
+        <td style="vertical-align:middle;text-align:center"><a href="#" data-toggle="modal" data-target="#myModalHorizontal-<%= el.name %>"><img src="images/delete.png"/></a></td>
+ 
+           </tr>
+
+   <div class="modal fade" id="myModalHorizontal-<%= el.name %>" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal Header -->
+         <div class="modal-header" style="background-color:white;">
+            <button type="button" class="close" 
+               data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+            </button>
+         </div>
+         <!-- Modal Body -->
+         <div class="modal-body">
+            <h5 class="text-center" style="font-weight:bold;">Delete Contianer</h5>
+           <p>Delete <%= el.name %>&nbsp;?</p>
+         </div>
+         <!-- Modal Footer -->
+         <div style= "text-align:right" class="modal-footer">
+             <button type="button" class="btn btn-default btn-custom"
+               data-dismiss="modal">
+            Close
+            </button>
+              <button type="button" class="btn btn-danger btn-custom" data-dismiss="modal" >
+         <a href="#" class="cbte"  name="ctdel" id="ctdel" cbsname="<%= el.name %>" style="color:white">Delete</a>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+                                          <% }); %>  
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer">
+                © 2018 Cloud IDE
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+    
+  
+
+  <div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal Header -->
+         <div class="modal-header" style="background-color:white;">
+            <button type="button" class="close" 
+               data-dismiss="modal">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+            </button>
+         </div>
+         <!-- Modal Body -->
+         <div class="modal-body">
+            <h5 class="text-center" style="font-weight:bold;">Create a new Container</h5>
+            <table class="table table-condensed" id="tblGrid">
+               <thead id="tblHead">
+                  <tr>
+                     <th>Container Information</th>
+                  </tr>               
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                       <label  class=" control-label">Name:</label>
+                       <input type="text" id="cttname" name="cttname" class="form-control input-lg" placeholder="Name" onkeyup="checkcontainer();">
+                    <span style="color:red" id="email_status"></span>
+                      </td>
+                  </tr>
+                     <tr>
+                     <td>
+                       <label  class=" control-label">Language:</label>
+                       <br/>
+                  <select class="btn btn-secondary dropdown-toggle" id="cntrlan" name="cntrlan">
+               <option value="C">C</option>
+              <option value="JAVA">Java</option>
+              <option value="PhP">PHP</option>
+               <option value="Custom">Custom</option>
+                <option value="Python">Python</option>
+                  </select>
+                  
+                      </td>
+                  </tr>
+               </tbody>
+            </table>
+
+  
+         </div>
+         <!-- Modal Footer -->
+         <div style= "text-align: center" class="modal-footer">
+              <button type="button" id="btcreate" class="btn btn-primary btn-custom" data-dismiss="modal" disabled="true">
+                  Create
+            </button>
+            <button type="button" class="btn btn-default btn-custom"
+               data-dismiss="modal">
+            Close
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+</div>
+
+   <script src="/stylesheets/material/assets/plugins/bootstrap/js/tether.min.js"></script>
+    <script src="/stylesheets/material/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/javascripts/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="/javascripts/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/javascripts/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/stylesheets/material/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/javascripts/custom.min.js"></script>
+
+  </body>
+</html>

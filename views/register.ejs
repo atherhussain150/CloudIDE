@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud IDE-Register</title>
+   <!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/stylesheets/util.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+<!--===============================================================================================-->
+
+
+   
+    <script type="text/javascript">
+
+
+function checkname()
+{
+ var name=document.getElementById( "username" ).value;
+	
+ if(name)
+ {
+  $.ajax({
+  type: 'post',
+  url: '/checkusername',
+  data: {
+   user_name:name,
+  },
+  success: function (response) {
+   $( '#name_status' ).html(response);
+   if(response=="OK")	
+   {
+    return true;	
+   }
+   else
+   {
+    return false;	
+   }
+  }
+  });
+ }
+ else
+ {
+  $( '#name_status' ).html("");
+  return false;
+ }
+}
+
+function checkemail()
+{
+ var email=document.getElementById( "email" ).value;
+	
+ if(email)
+ {
+  $.ajax({
+  type: 'post',
+  url: '/checkemail',
+  data: {
+   user_email:email,
+  },
+  success: function (response) {
+   $( '#email_status' ).html(response);
+   if(response=="OK")	
+   {
+    return true;	
+   }
+   else
+   {
+    return false;	
+   }
+  }
+  });
+ }
+ else
+ {
+  $( '#email_status' ).html("");
+  return false;
+ }
+}
+
+function checkpass()
+{
+    var firstInput = document.getElementById("password").value;
+var secondInput = document.getElementById("repassword").value;
+if(firstInput === secondInput)
+{
+$( '#pass_status' ).html("password match !");
+}
+else if(secondInput > firstInput || secondInput < firstInput)
+{
+$( '#pass_status' ).html("Passwords donot match !");
+}
+else
+{
+$( '#pass_status' ).html("");
+}
+}
+
+function checkall()
+{
+ var namehtml=document.getElementById("name_status").innerHTML;
+ var emailhtml=document.getElementById("email_status").innerHTML;
+ var passwordhtml=document.getElementById("password_status").innerHTML;
+ var passhtml=document.getElementById("pass_status").innerHTML;
+
+ if((namehtml && emailhtml)=="OK" && passhtml=="password match !" && passwordhtml=="Password Matches Criteria")
+ {
+  return true;
+ }
+ else
+ {
+     document.getElementById( "error" ).hidden = false;   
+  return false;
+ }
+}
+
+</script>
+
+<style type="text/css">
+
+#pswd_info {
+	background: #dfdfdf none repeat scroll 0 0;
+	color: #fff;
+	position: relative;
+	padding: 20px;
+    margin-top: 10px;
+}
+#pswd_info h4{
+    background: #6675df none repeat scroll 0 0;
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0;
+    padding: 17px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+#pswd_info ul {
+    list-style: outside none none;
+}
+#pswd_info ul li {
+   padding: 10px 45px;
+}
+
+
+
+.valid {
+	background: rgba(0, 0, 0, 0) url("https://s19.postimg.org/vq43s2wib/valid.png") no-repeat scroll 2px 6px;
+	color: green;
+	line-height: 21px;
+	padding-left: 22px;
+}
+
+.invalid {
+	background: rgba(0, 0, 0, 0) url("https://s19.postimg.org/olmaj1p8z/invalid.png") no-repeat scroll 2px 6px;
+	color: red;
+	line-height: 21px;
+	padding-left: 22px;
+}
+
+
+#pswd_info::before {
+    background: #dfdfdf none repeat scroll 0 0;
+    content: "";
+    height: 25px;
+    left: 5px;
+    margin-top: -12.5px;
+    position: absolute;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 25px;
+}
+#pswd_info {
+    display:none;
+}
+</style>
+</head>
+<body style="background-color: #666666;">
+         <div id="error" class="alert alert-danger alert-dismissable" hidden="true">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Alert!</strong> Couldn't Register :( please fill your Information Correctly.
+        </div> 
+
+
+  <div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" action="/register" method="post" onsubmit="return checkall();">
+					<span class="login100-form-title p-b-43">
+						REGISTER 
+					</span>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate = "Valid Username is required: abc">
+						<input class="input100" type="text" id="username" name="username" onkeyup="checkname();">
+						<span class="focus-input100"></span>
+                        <span class="label-input100">Username</span>                       
+                    </div>
+
+                    <div class="text-center p-t-6 p-b-20">
+						<span style="color:green" id="name_status"></span>
+					</div>
+                    
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" id="email" name="email" onkeyup="checkemail();">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Email</span>
+                    </div>
+                    
+                    <div class="text-center p-t-6 p-b-20">
+						<span style="color:green" id="email_status"></span>
+                    </div>
+                    
+                     <div class="text-center p-t-3 p-b-20">
+                <div id="pswd_info">
+					<h4>Password requirements</h4>
+					<ul>
+						<li id="letter" class="invalid">At least <strong>one letter</strong></li>
+						<li id="capital" class="invalid">At least <strong>one capital letter</strong></li>
+						<li id="number" class="invalid">At least <strong>one number</strong></li>
+						<li id="length" class="invalid">Be at least <strong>8 characters</strong></li>
+						<li id="space" class="invalid">be<strong> use [~,!,@,#,$,%,^,&,*,-,=,.,;,']</strong></li>
+					</ul>
+                </div>
+                </div>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<input class="input100"  data-toggle="popover" data-placement="left" data-original-title="LEFT POPOVER" data-content="The paragraph within the popover is using <code>data-content</code> attribute." type="password" id="password" name="password">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Password</span>
+                    </div>	
+                    
+                    <div class="text-center p-t-6 p-b-20">
+						<span style="color:green" id="password_status"></span>
+                    </div>             
+                    
+                    <div class="wrap-input100 validate-input" data-validate="Re-entering the Password is required">
+						<input class="input100" type="password" id="repassword" name="repassword" onkeyup="checkpass();">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Re-Password</span>
+                    </div>
+                    
+                    <div class="text-center p-t-6 p-b-20">
+						<span style="color:green" id="pass_status"></span>
+                    </div>
+                                    
+
+					<div class="container-login100-form-btn">
+						<button type="submit" class="login100-form-btn">
+							Register
+						</button>
+                    </div>
+          
+                    <div class="text-center p-t-46 p-b-20">
+						<span class="txt2" style="color:red;"><%= msg %></span>
+					</div>
+					
+					<div class="text-center p-t-46 p-b-20">
+						<span class="txt2">
+						<a href="/">	Already have an account? SignIn! </a>
+						</span>
+					</div>
+
+				</form>
+
+				<div class="login100-more" style="background-image: url('images/coding.png');">
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="tooltip bs-tooltip-top" role="tooltip">
+  <div class="arrow"></div>
+  <div class="tooltip-inner">
+    Some tooltip text!
+  </div>
+</div>
+
+
+      	
+			
+		
+			
+  
+    
+
+     <!--===============================================================================================-->
+	<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/vendor/bootstrap/js/popper.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/vendor/daterangepicker/moment.min.js"></script>
+	<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+    <script src="/javascripts/main.js"></script>
+    
+    <script type="text/javascript">
+
+$(document).ready(function(){
+	$('#password').keyup(function() {
+		var pswd = $(this).val();		
+		//validate the length
+		if ( pswd.length < 8 ) {
+			$('#length').removeClass('valid').addClass('invalid');
+		} else {
+			$('#length').removeClass('invalid').addClass('valid');
+		}
+		
+		//validate letter
+		if ( pswd.match(/[A-z]/) ) {
+			$('#letter').removeClass('invalid').addClass('valid');
+		} else {
+			$('#letter').removeClass('valid').addClass('invalid');
+		}
+
+		//validate capital letter
+		if ( pswd.match(/[A-Z]/) ) {
+			$('#capital').removeClass('invalid').addClass('valid');
+		} else {
+			$('#capital').removeClass('valid').addClass('invalid');
+		}
+
+		//validate number
+		if ( pswd.match(/\d/) ) {
+			$('#number').removeClass('invalid').addClass('valid');
+		} else {
+			$('#number').removeClass('valid').addClass('invalid');
+		}
+		
+		//validate space
+		if ( pswd.match(/[^a-zA-Z0-9\-\/]/) ) {
+			$('#space').removeClass('invalid').addClass('valid');
+		} else {
+			$('#space').removeClass('valid').addClass('invalid');
+        }
+       
+        if(pswd.length >= 8 && pswd.match(/[A-z]/) && pswd.match(/[A-Z]/) && pswd.match(/\d/) && pswd.match(/[^a-zA-Z0-9\-\/]/) )
+        {          
+          $( '#password_status' ).html("Password Matches Criteria");
+        }
+        else
+        {
+            $( '#password_status' ).html("");
+        }
+		
+	}).focus(function() {
+		$('#pswd_info').show();
+	}).blur(function() {
+		$('#pswd_info').hide();
+	});
+	
+});
+
+
+    </script>
+</body>
+</html>
